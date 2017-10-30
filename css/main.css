@@ -1,0 +1,92 @@
+html {
+	background-image: url("../img/shrine2.jpg");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-color: #444;
+	height: 100%;
+}
+
+html, body {
+	text-align: center;
+	color: white;
+}
+
+.animate {
+	transition: all 1s;
+}
+
+.title {
+
+	font-family: 'Merriweather', serif;
+	font-weight: bold;
+	margin-top: 150px;
+	font-size: 60px;
+	text-shadow: #00ADFF 1px 0 15px;
+	text-transform: capitalize;
+}
+
+.shrine-title {
+	text-transform: capitalize;
+}
+
+.subtitle {
+	font-family: 'Roboto', sans-serif;
+	margin-top: 15px;
+	font-weight: bold;
+	font-style: italic;
+	letter-spacing: 1px;
+	font-size: 24px;
+	text-shadow: #00ADFF 1px 0 15px;
+	cursor: pointer;
+}
+
+.nmr-5 {
+	margin-right: -5px;
+}
+
+.nml-9 {
+	margin-left: -9px;
+}
+
+@media screen and (max-width: 1200px){
+	.title {
+		font-size: 48px;
+	}
+	.subtitle {
+		font-size: 22px;
+	}
+}
+
+
+@media screen and (max-width: 1024px){
+	.title {
+		font-size: 38px;
+	}
+	.subtitle {
+		font-size: 18px;
+		margin-top: 10px;
+	}
+}
+
+@media screen and (max-width: 768px){
+	.title {
+		font-size: 28px;
+		margin-top: 200px;
+	}
+
+	.subtitle {
+		font-size: 16px;
+	}
+}
+
+@media screen and (max-width: 500px){
+	.title {
+		font-size: 20px;
+		margin-top: 210px;
+	}
+	.subtitle {
+		font-size: 14px;
+		margin-top: 8px;
+	}
+}
