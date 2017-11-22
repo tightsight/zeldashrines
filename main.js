@@ -2,7 +2,10 @@ var ALL_LETTERS = 'abcdefghijklmnopqrstuvwxyz';
 var CONSONANTS = 'bcdfghjklmnpqrstvwxyz';
 var COMMON_CONSONANTS = 'bcdfghjklmnprstvwyz';
 var VOWELS = 'aeiou'; // no y
+var VOWELS_WITH_Y = 'aeiouy';
 var KEY_CODE_N = 110;
+var KEY_CODE_S = 115;
+
 
 function randomLetter(){
   return ALL_LETTERS.charAt(Math.floor(ALL_LETTERS.length * Math.random()));
@@ -29,9 +32,18 @@ function randomArrayElement(array){
   return array[Math.floor(array.length * Math.random())];
 }
 
+function coinFlip(){
+  if(Math.floor(2 * Math.random()) == 1) return true;
+  return false;
+}
+
 var SYLABBLE = [
-  [randomDoubleVowel, randomConsonant, randomVowel], [randomVowel, randomConsonant, randomDoubleVowel], [randomConsonant, randomVowel, randomConsonant, randomVowel],
-  [randomVowel, randomConsonant, randomVowel], [randomConsonant, randomVowel, randomConsonant], [randomConsonant, randomVowel, randomConsonant, randomConsonant, randomVowel]
+  [randomDoubleVowel, randomConsonant, randomVowel], 
+  [randomVowel, randomConsonant, randomDoubleVowel], 
+  [randomVowel, randomConsonant, randomVowel], 
+  [randomConsonant, randomVowel, randomConsonant, randomVowel],
+  [randomConsonant, randomDoubleVowel, randomConsonant, randomVowel],
+  [randomConsonant, randomVowel, randomConsonant], 
 ]
 
 function randomSyllable(){
@@ -48,16 +60,6 @@ function repeatWord(firstWord){
   return firstWord;
 }
 
-var WORD = [
-  [randomSyllable], [randomSyllable, randomSyllable], [randomSyllable, randomSyllable, randomSyllable]
-]
-
-function randomWord(){
-  return randomArrayElement(WORD).reduce(function(stringSoFar, val){
-    return stringSoFar + val();
-  },"");
-}
-
 function shortNoun(){
   var shortNoun = randomArrayElement(COMMON_NOUNS);
   while(shortNoun.length > 5) shortNoun = randomArrayElement(COMMON_NOUNS);
@@ -65,8 +67,18 @@ function shortNoun(){
   return shortNoun;
 }
 
+function crazyNoun(){
+  var crazyNoun = randomArrayElement(COMMON_NOUNS);
+  while(crazyNoun.length > 4) crazyNoun = randomArrayElement(COMMON_NOUNS);
+
+  crazyNoun = coinFlip() ? crazyNoun + randomArrayElement(VOWELS_WITH_Y) : randomArrayElement(VOWELS) + crazyNoun;
+
+  return crazyNoun;
+}
+
 var SHRINE_NAME = [
-  [randomSyllable, randomSyllable], [randomSyllable, repeatWord], [randomSyllable, shortNoun], [shortNoun, randomSyllable]
+  [randomSyllable, randomSyllable], [randomSyllable, repeatWord], [randomSyllable, crazyNoun],
+  [crazyNoun, crazyNoun], [crazyNoun, repeatWord], [crazyNoun, randomSyllable]
 ]
 
 function generateShrineName(){
@@ -75,25 +87,25 @@ function generateShrineName(){
   }, "");
 }
 
-/*
+var ZELDA_ENEMIES = ["Moblin", "Bokoblin", "Molduga", "Lizalfos", "Keese", "Wolf", "Talus", "Yiga", "Lynel", "Hinox", "Octorok", "Gaurdian", "Chuchu"];
 
---Shrines that could work
+var BODY_PARTS = ["Kidney", "Intestine", "Spleen", "Finger", "Gut", "Meat", "Toenail", "Loin", "Lip", "Eyelid", "Eyeball", "Hair", "Jelly",
+ "Femur", "Mole", "Bunion", "Extract", "Horn", "Fang", "extract"];
 
-X's Teaching, Tempered Power, Drawing Parabolas, Buried Secrets, Build and Release, Electric Path
-Aim for the Moment, Metal Makes a Path, Swinging Flames, Passing the Flame,
+var OBJECTS = ["Bomb", "Arrow", "Restless Cricket", "Apple", "Acorn", "Korok Leaf", "Korok Seed", "Rock Salt", "Armored Carp", "Armored Porgy", "Diamond", "Endura Carrot",
+ "Dubious Food", "Ancient Core", "Ancient Screw", "Amber", "Goat Butter", "Hylian Shroom", "Ironshroom","Mighty Bananas", "Sneaky River Snail",  "Frog", 
+ "Cricket", "Milk", "Fairy", "Rupee", "Spirit Orb", "Wood", "Zapshroom", "Tireless Frog"  ];
 
-*/
+var ZELDA_ADJECTIVES = ['Gourmet', 'Prime', 'Hearty', 'Raw', 'Mighty', 'Ancient', 'Electric', 'Hylian', 'Warm', 'Cool', 'Swift', 'Endura', 'Armored']
 
-var ZELDA_ENEMIES = ["Moblin", "Bokoblin", "Lizalfos", "Keese", "Wolf", "Talus", "Yiga", "Lynel", "Hinox", "Octorok", "Gaurdian", "Chuchu"];
-var BODY_PARTS = ["Kidney", "Intestine", "Spleen", "Finger", "Toenail", "Thorax", "Loin", "Lip", "Eyelid", "Eyeball", "Hair", "Jelly", "Femur", "Mole", "Bunion"];
-var OBJECTS = ["Bomb", "Arrow", "Mushroom", "Apple", "Acorn", "Korok Leaf", "Korok Seed", "Rock Salt",
- "Dubious Food", "Ancient Core", "Ancient Screw", "Amber", "Goat Butter", "Frog", "Cricket", "Milk", "Fairy" ];
+// carp, salmon, trout, fruit, shroom, 
+// Gourmet, Prime, Hearty, Raw, Mighty, Giant, Ironshell, Razorclaw, Hyrule (Hylian), Electric, Ancient, armored, cold/cool, endura, ice, shard of , swift, voltfin, warm, yellow, whitel
 
-var WEAPON_TYPES = ["Traveler's", "Soldier's", "Child's", "Commoner's", "Farmer's", "Beggar's", "Knight's", "Royal", "Forest Dweller's", "Lynel", "Rusty", "Gaurdian", "Boko", "Ancient"]
+var WEAPON_TYPES = ["Traveler's", "Soldier's", "Child's", "Commoner's", "Farmer's", "Beggar's", "Knight's", "Royal", "Lynel", "Rusty", "Gaurdian", "Boko", "Ancient"]
 var WEAPONS = ["Spear", "Bow", "Torch", "Branch", "Broadsword", "Hoe", "Sword", "Boomerang", "Halberd", "Claymore", "Bladesaw", "Club", "Battle Axe"];
 
 var NOUN_GROUPS = [
-  [WEAPON_TYPES, WEAPONS], [ZELDA_ENEMIES, BODY_PARTS], [OBJECTS]
+  [WEAPONS], [ZELDA_ENEMIES, BODY_PARTS], [OBJECTS]
 ]
 
 function getZeldaNoun(){
@@ -102,14 +114,41 @@ function getZeldaNoun(){
   }, "");
 }
 
-var WRITTEN_NUMBERS = ["two", "two", "three", "three", "four", "four", "five", "six", "seven", "eight", "nine", "Six and a half",
-"ten", "eleven", "twenty", "fifty five", "two hundred", "ten thousand", "Two Million", "A Billion" ]
+var WRITTEN_NUMBERS = ["two", "three", "one half", "four", "five", "six", "seven", "eighty", "nine point nine nine", "nine", "Six and a half",
+"ten", "eight point two", "eleven", "fifteen", "forty two", "twenty", "fifty five", "two hundred", "ten thousand", "one point five million","two million", "A Billion" ]
 
 var CONTINUOUS_VERBS = ["Thinking", "Dying", "Shooting", "Running", "Swimming", "Climbing", "Flying", "Walking", "Jogging", "Horse Soothing", "Horse Riding"];
 
+/*
+
+--Shrines that could work
+
+X's Teaching, Tempered Power, Drawing Parabolas, Buried Secrets, Build and Release, Electric Path
+Aim for the Moment, Metal Makes a Path, Swinging Flames, Passing the Flame, metal doors open the way,
+path of hidden winds
+
+1.  ___ing the flame || _____ing the Wind
+2.  ___ Trial (zelda noun?)
+4.  The ___ (zelda noun) guides you
+5.  ____ Timing
+6.  ___ Path
+7.  Wind ____ OR ____ Guide 
+8.  A ____ Approach (balanced)
+9.  ___ Flame || ___ing flames
+10.  Power of _____
+
+*/
+
+function challengeTheFlameWind(shrineName){
+  return randomArrayElement(['flame', 'wind']) + " " + randomArrayElement(COMMON_NOUNS)
+}
 
 function challengeStrength(shrineName){
   return randomArrayElement(ADJECTIVES) + " test of strength";
+}
+
+function challengeStrengthReversed(shrineName){
+  return randomArrayElement(['major', 'minor', 'modest']) + " test of " + randomArrayElement(COMMON_NOUNS)
 }
 
 function challengeHaltTheTilt(shrineName){
@@ -125,15 +164,12 @@ function challengeNumeric(shrineName){
 }
 
 function challengeTrial(shrineName){
-  return "Trial of the " + randomArrayElement(COMMON_NOUNS);
+  return "Trial of the " + randomArrayElement(ZELDA_ADJECTIVES) + " " + randomArrayElement(COMMON_NOUNS);
 }
 
-function challengeBlessing(shrineName){
-  return shrineName + "'s Blessing";
-}
-
-function challengeApparatus(shrineName){
-  return shrineName + "'s Apparatus";  
+// Blessing / Apparatus / Teaching
+function challengeBlapparatus(shrineName){
+    return shrineName + "'s " + randomArrayElement(['Blessing', 'Apparatus', 'Teaching']);
 }
 
 function challengeIsCritical(shrineName){
@@ -141,10 +177,13 @@ function challengeIsCritical(shrineName){
 }
 
 function challengeGuide(shrineName){
-  return randomArrayElement(WRITTEN_NUMBERS) + " " +getZeldaNoun()+"s to Guide You";
+  return "the " + getZeldaNoun() + " guides you";
 }
 
-var SHRINE_CHALLENGES = [challengeBlessing, challengeGuide, challengeApparatus, challengeIsCritical, challengeNumeric, challengeTrial, challengePathOf, challengeHaltTheTilt, challengeStrength]
+
+var SHRINE_CHALLENGES = [challengeGuide, challengeIsCritical, challengeBlapparatus, challengeTrial, challengeNumeric,  
+challengePathOf, challengeHaltTheTilt, challengeStrengthReversed, challengeStrength, challengeTheFlameWind]
+
 function getShrineChallenge(shrineName){
   return randomArrayElement(SHRINE_CHALLENGES)(shrineName);
 }
@@ -176,15 +215,68 @@ function generateAnimation(){
   window.setTimeout(generate, 1000);
 }
 
+function randomFilename(){
+  return "zelda_shrine_"+randomArrayElement(COMMON_NOUNS)+".png";
+}
+
+// https://stackoverflow.com/questions/4998908/convert-data-uri-to-file-then-append-to-formdata
+function dataURItoBlob(dataURI) {
+    // convert base64/URLEncoded data component to raw binary data held in a string
+    var byteString;
+    if (dataURI.split(',')[0].indexOf('base64') >= 0)
+        byteString = atob(dataURI.split(',')[1]);
+    else
+        byteString = unescape(dataURI.split(',')[1]);
+
+    // separate out the mime component
+    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+    // write the bytes of the string to a typed array
+    var ia = new Uint8Array(byteString.length);
+    for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+
+    return new Blob([ia], {type:mimeString});
+}
+
+function saveImage(){
+
+  document.getElementById('save-notice').style.display = "none";
+
+  html2canvas(document.body.parentNode, {
+    logging : false,
+    onrendered : function(canvas){
+      var a = document.createElement('a');
+      var blobData = dataURItoBlob(canvas.toDataURL('image/png'));
+      a.href = URL.createObjectURL(blobData);
+
+      a.download = randomFilename();
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      document.getElementById('save-notice').style.display = "inline";
+    }
+  });
+}
+
 document.addEventListener("DOMContentLoaded", function() {
 
   document.getElementById('subtitle').addEventListener('click', function(e){
     generateAnimation();      
   });
 
+  document.getElementById('save-notice').addEventListener('click', function(e){
+    saveImage();      
+  });
+
   document.addEventListener("keypress", function(e){
+
     if(e.keyCode == KEY_CODE_N){
       generateAnimation();
+    }
+    else if (e.keyCode == KEY_CODE_S){
+      saveImage();
     }
   });
 });

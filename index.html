@@ -2,16 +2,43 @@
 <html>
 <head>
   <title>Zelda Shrine Name Generator</title>
+  <meta name="description" content="Generate random Zelda shrine names and save your favorites.">
+
+  <!-- Open Graph Data -->
+  <meta property="og:url" content="https://tightsight.github.io/zeldashrines/" />
+  <meta property="og:title" content="Zelda Shrine Name Generator" />
+  <meta property="og:description" content="Generate random Zelda shrine names and save your favorites." />
+
+  <!-- 1200 x 630 -->
+  <meta property="og:image" content="https://tightsight.github.io/zeldashrines/img/zelda_shrine_fb.jpg" />
+
   <link href="https://fonts.googleapis.com/css?family=Merriweather:700|Roboto" rel="stylesheet">
   <link href="./css/main.css" rel="stylesheet">
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-55527133-4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-55527133-4');
+  </script>
+
 </head>
 <body>
   <div class="title animate" id="challenge">Zelda Shrine Name Generator</div>
   <div class="subtitle animate" id="subtitle">&part;<span class="nml-9">&sim;</span> &nbsp; <span class="shrine-title">Press 'n' or click here to generate a new</span> Shrine &nbsp;<span class="nmr-5">&sim;</span>&part;</div>
 
+  <div id="save-notice">
+    <p class="big-letter">S</p> save image
+  </div>
+
   <script src="./main.js"></script>
   <script src="js/common_nouns.js"></script>
   <script src="js/adjectives.js"></script>
   <script src="js/verbs.js"></script>
+  <script src="js/html2canvas.js"></script>
+
 </body>
 </html>
