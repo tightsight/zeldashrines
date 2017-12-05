@@ -203,6 +203,45 @@ function generate(){
   setOpacity(1);
 }
 
+// https://stackoverflow.com/questions/196972/convert-string-to-title-case-with-javascript
+function toTitleCase(str){
+    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+}
+
+
+function generateOnCanvas(shrineName, shrineChallenge){
+
+  var subtitle = '∼  ' + shrineName + ' Shrine  ∼';
+
+  var img1 = new Image();
+  img1.addEventListener('load', function(){
+    var ctx = document.getElementById('mainCanvas').getContext('2d');
+    ctx.drawImage(img1, 0,0, 960, 540);
+    ctx.textAlign = "center"
+
+    ctx.font = '48px Merriweather';
+    ctx.fillStyle = "white";
+
+    ctx.shadowColor = "#00ADFF";
+    ctx.shadowBlur = 14;
+
+    ctx.fillText(shrineChallenge, 480,150);
+
+    ctx.font = '28px Merriweather';
+    ctx.fillText(subtitle, 480,200);
+
+  }, false);
+  img1.src = "../img/shrine2.jpg"
+}
+
+function generateRandomShrine(){
+  var shrineName = toTitleCase(generateShrineName());
+  var shrineChallenge = toTitleCase(getShrineChallenge(shrineName));
+
+  generateOnCanvas(shrineName, shrineChallenge);
+}
+
+
 function setOpacity(val){
   var nameElements = document.getElementsByClassName('animate');
   for(var i=0;i<nameElements.length;i++) {
@@ -242,38 +281,57 @@ function dataURItoBlob(dataURI) {
 
 function saveImage(){
 
-  document.getElementById('save-notice').style.display = "none";
 
-  html2canvas(document.body.parentNode, {
-    logging : false,
-    onrendered : function(canvas){
-      var a = document.createElement('a');
-      var blobData = dataURItoBlob(canvas.toDataURL('image/png'));
-      a.href = URL.createObjectURL(blobData);
+  var canvas = document.getElementById('mainCanvas');
 
-      a.download = randomFilename();
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      document.getElementById('save-notice').style.display = "inline";
-    }
-  });
+  var a = document.createElement('a');
+  a.href = canvas.toDataURL('image/png');
+  a.download = randomFilename();
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+
+
+  // var oldSave = function(canvas){
+  //   var a = document.createElement('a');
+  //   var blobData = dataURItoBlob(canvas.toDataURL('image/png'));
+  //   a.href = URL.createObjectURL(blobData);
+
+  //   a.download = randomFilename();
+  //   document.body.appendChild(a);
+  //   a.click();
+  //   document.body.removeChild(a);
+  //   document.getElementById('save-notice').style.display = "inline";
+  // }
+
 }
 
 document.addEventListener("DOMContentLoaded", function() {
 
-  document.getElementById('subtitle').addEventListener('click', function(e){
-    generateAnimation();      
+
+  var img1 = new Image();
+  img1.addEventListener('load', function(){
+    var ctx = document.getElementById('mainCanvas').getContext('2d');
+    ctx.drawImage(img1, 0,0, 960, 540);
+    generateOnCanvas("Press 'n' or Click Below to Generate a ", "Zelda Shrine Name Generator");
+
+  }, false);
+  img1.src = "../img/shrine2.jpg"
+
+
+  document.getElementById('newName').addEventListener('click', function(e){
+    generateRandomShrine();  
   });
 
-  document.getElementById('save-notice').addEventListener('click', function(e){
+  document.getElementById('saveImage').addEventListener('click', function(e){
     saveImage();      
   });
 
   document.addEventListener("keypress", function(e){
 
     if(e.keyCode == KEY_CODE_N){
-      generateAnimation();
+      // generateAnimation();
+      generateRandomShrine();
     }
     else if (e.keyCode == KEY_CODE_S){
       saveImage();
