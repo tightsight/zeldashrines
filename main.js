@@ -208,6 +208,7 @@ function toTitleCase(str){
     return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 }
 
+var BG_IMG_PATH = "./img/shrine2.jpg";
 
 function generateOnCanvas(shrineName, shrineChallenge){
 
@@ -231,7 +232,7 @@ function generateOnCanvas(shrineName, shrineChallenge){
     ctx.fillText(subtitle, 480,200);
 
   }, false);
-  img1.src = "../img/shrine2.jpg"
+  img1.src = BG_IMG_PATH;
 }
 
 function generateRandomShrine(){
@@ -316,7 +317,7 @@ document.addEventListener("DOMContentLoaded", function() {
     generateOnCanvas("Press 'n' or Click Below to Generate a ", "Zelda Shrine Name Generator");
 
   }, false);
-  img1.src = "./img/shrine2.jpg"
+  img1.src = BG_IMG_PATH;
 
 
   document.getElementById('newName').addEventListener('click', function(e){
