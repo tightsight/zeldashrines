@@ -316,7 +316,7 @@ document.addEventListener("DOMContentLoaded", function() {
     generateOnCanvas("Press 'n' or Click Below to Generate a ", "Zelda Shrine Name Generator");
 
   }, false);
-  img1.src = "../img/shrine2.jpg"
+  img1.src = "./img/shrine2.jpg"
 
 
   document.getElementById('newName').addEventListener('click', function(e){
