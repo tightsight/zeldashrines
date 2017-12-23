@@ -180,11 +180,16 @@ function challengeGuide(shrineName){
   return "the " + getZeldaNoun() + " guides you";
 }
 
+// function challengeAA(shrineName){
+//   return randomArrayElement(ADJECTIVES) + " and " + randomArrayElement(ADJECTIVES);
+// }
+
 
 var SHRINE_CHALLENGES = [challengeGuide, challengeIsCritical, challengeBlapparatus, challengeTrial, challengeNumeric,  
 challengePathOf, challengeHaltTheTilt, challengeStrengthReversed, challengeStrength, challengeTheFlameWind]
 
 function getShrineChallenge(shrineName){
+  // return challengeAA(shrineName);
   return randomArrayElement(SHRINE_CHALLENGES)(shrineName);
 }
 
@@ -208,34 +213,80 @@ function toTitleCase(str){
     return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 }
 
-var BG_IMG_PATH = "./img/shrine2.jpg";
+var DEFAULT_IMAGE = "./img/shrine_2.jpg";
+var IMG_DIR = "./img/";
+var IMAGES = ["shrine_2.jpg", "shrine_3.jpg", "shrine_4.jpg", "shrine_5.jpg"];
 
-function generateOnCanvas(shrineName, shrineChallenge){
+function getRandomBackgroundImage(){
+  return IMG_DIR + randomArrayElement(IMAGES);
+}
 
-  var subtitle = '∼  ' + shrineName + ' Shrine  ∼';
+// Display shrine text left:
+// ctx.textAlign = "left"
+// ctx.fillText(shrineChallenge, 40,465);
+// ctx.font = '24px Merriweather';
+// ctx.fillText(subtitle, 40,502);
+
+function generateOnCanvas(shrineName, shrineChallenge, img){
+
+  animationBusy = true;
+
+  var subtitle = '»  ' + shrineName + ' Shrine  «';
+
+  var canvas = document.getElementById('mainCanvas');
+  var ctx = canvas.getContext('2d');
+  ctx.fillStyle = "black";
+  ctx.fillRect(0,0,canvas.width, canvas.height);
 
   var img1 = new Image();
   img1.addEventListener('load', function(){
-    var ctx = document.getElementById('mainCanvas').getContext('2d');
-    ctx.drawImage(img1, 0,0, 960, 540);
+
+    ctx.shadowBlur = 12;
     ctx.textAlign = "center"
+    var opacity = 0;
 
-    ctx.font = '48px Merriweather';
-    ctx.fillStyle = "white";
+    function fadeIn(){
+      ctx.globalAlpha = 1;
+      ctx.drawImage(img1, 0,0, 960, 540);
 
-    ctx.shadowColor = "#00ADFF";
-    ctx.shadowBlur = 14;
+      ctx.globalAlpha = opacity;
 
-    ctx.fillText(shrineChallenge, 480,150);
+      ctx.fillStyle = "white";
+      ctx.shadowColor = "#00ADFF";
 
-    ctx.font = '28px Merriweather';
-    ctx.fillText(subtitle, 480,200);
+      ctx.font = '48px Merriweather';
+      ctx.fillText(shrineChallenge, 480,150);
+      ctx.font = '24px Merriweather';
+      ctx.fillText(subtitle, 480,187);
+
+      ctx.shadowColor = "transparent";
+
+      opacity += 0.001;
+      if(opacity > .015) opacity += Math.log(100 * opacity)/100;
+
+      if(opacity <= 1){
+        requestAnimationFrame(fadeIn);
+      } else {
+        animationBusy = false;
+      }
+    }
+
+    fadeIn();
 
   }, false);
-  img1.src = BG_IMG_PATH;
+
+  if(img) {
+    img1.src = img;
+  }
+  else {
+    img1.src = getRandomBackgroundImage();
+  }
 }
 
 function generateRandomShrine(){
+
+  if(animationBusy) return;
+
   var shrineName = toTitleCase(generateShrineName());
   var shrineChallenge = toTitleCase(getShrineChallenge(shrineName));
 
@@ -307,18 +358,12 @@ function saveImage(){
 
 }
 
+var animationBusy = false;
+var musicOn = true;
+
 document.addEventListener("DOMContentLoaded", function() {
 
-
-  var img1 = new Image();
-  img1.addEventListener('load', function(){
-    var ctx = document.getElementById('mainCanvas').getContext('2d');
-    ctx.drawImage(img1, 0,0, 960, 540);
-    generateOnCanvas("Press 'n' or Click Below to Generate a ", "Zelda Shrine Name Generator");
-
-  }, false);
-  img1.src = BG_IMG_PATH;
-
+  generateOnCanvas("Press 'n' or Click New to Generate a ", "Zelda Shrine Generator", DEFAULT_IMAGE);
 
   document.getElementById('newName').addEventListener('click', function(e){
     generateRandomShrine();  
@@ -328,10 +373,23 @@ document.addEventListener("DOMContentLoaded", function() {
     saveImage();      
   });
 
-  document.addEventListener("keypress", function(e){
+  document.getElementById('musicToggle').addEventListener('click', function(e){
+    musicOn = !musicOn;
 
+    var status = document.getElementById('musicOnOff');
+    var music = document.getElementById('shrineMusic');
+
+    if(musicOn) {
+      music.muted = false;
+      status.innerHTML = "On"
+    } else {
+      music.muted = true;
+      status.innerHTML = "Off"
+    }
+  });
+
+  document.addEventListener("keypress", function(e){
     if(e.keyCode == KEY_CODE_N){
-      // generateAnimation();
       generateRandomShrine();
     }
     else if (e.keyCode == KEY_CODE_S){

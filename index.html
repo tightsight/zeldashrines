@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Zelda Shrine Name Generator</title>
+  <title>Zelda Shrine Generator</title>
   <meta name="description" content="Generate random Zelda shrine names and save your favorites.">
 
   <!-- Open Graph Data -->
@@ -29,18 +29,25 @@
 </head>
 <body>
   <div class="container">
-    <h1 class="title" style="font-family: 'Merriweather'">Zelda Shrine Name Generator</h1>
+    <h1 class="title" style="font-family: 'Merriweather'">Zelda Shrine Generator</h1>
     <canvas id="mainCanvas" width="960" height="540"></canvas>
 
     <!-- Preload font.  Needed for first render on the canvas.  See: https://stackoverflow.com/questions/2756575/drawing-text-to-canvas-with-font-face-does-not-work-at-the-first-time -->
     <!-- <h1 class="title" style="font-family: 'Merriweather'">Zelda Shrine Name Generator</h1> -->
 
+    <div class="buttons button-left">
+      <div class="" id="musicToggle">Music: <span id="musicOnOff">On</span></div>
+    </div>
+
     <div class="buttons">
       <div class="" id="newName"> <span class="big-letter">N</span> New Shrine</div>
       <div class="" id="saveImage"> <span class="big-letter">S</span> Save as Image</div>
-
     </div>
   </div>
+
+  <audio id="shrineMusic" autoplay loop volume="1.0">
+    <source src="./audio/shrine_music.mp3" type="audio/mpeg" />
+  </audio>
 
   <script src="./main.js" charset="utf-8"></script>
   <script src="js/common_nouns.js"></script>
